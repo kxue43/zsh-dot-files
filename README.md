@@ -1,24 +1,13 @@
-# Setting up Ubuntu 22.04.1 on WSL2
+# Setting up a Ubuntu Dev Computer
 
 ## Introduction
 
-This document covers how to set up a newly installed Ubuntu 22.04.1 distro on Windows with WSL2 for convenient
-development work, especially geared toward Python.
+This document covers how to set up a Linux computer with a newly installed Ubuntu 22.04 distro
+for Python and Node development. It works on Windows with WSL2 as well.
 
-## Prerequisite
+All commands below should be executed from the user's home directory.
 
-Check the default shell used and if certain simple CLI tools are installed.
-
-```bash
-ps -p $$
-which zip
-which unzip
-which curl
-which git
-which vim
-```
-
-## Install missing tools from above
+## Install prerequisite tools
 
 Perform initial update and upgrade for a new distro.
 
@@ -26,11 +15,27 @@ Perform initial update and upgrade for a new distro.
 sudo apt update -y && sudo apt upgrade -y
 ```
 
-Install missing tools from above
+Install some common tools needed by the rest of the process.
 
 ```bash
 sudo apt install zip unzip curl -y
 ```
+
+## Install zsh and use it as the default login shell
+
+Install `zsh` shell.
+
+```bash
+sudo apt install zsh -y
+```
+
+Switch to `zsh` as default login shell.
+
+```bash
+chsh -s $(which zsh)
+```
+
+**Now exit the current login shell and then restart/login again.**
 
 ## Install `pyenv`
 
@@ -45,58 +50,11 @@ libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
 libffi-dev liblzma-dev -y
 ```
 
-Now install `pyenv` via `git` into the `~/.pyenv` folder.
+Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
 
 ```bash
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 pushd ~/.pyenv && src/configure && make -C src && popd
-```
-
-## Install zsh and use it as default login shell
-
-We use `zsh` as user's login shell and set up its configuration files `~/.zshrc` and `.zprofile` with
-"standard" contents.
-
-Install `zsh` shell.
-
-```bash
-sudo apt install zsh -y
-```
-
-Pull standard config files from GitHub and overwrite local defaults.
-
-```bash
-curl -s -o dotFiles.zip https://raw.githubusercontent.com/xueke477/zsh-dot-files/master/dotFiles.zip
-unzip -o dotFiles.zip
-rm dotFiles.zip
-```
-
-Switch to `zsh` as default login shell.
-
-```bash
-chsh -s $(which zsh)
-```
-
-**Now exit WSL2 window and then restart it.**
-
-## Install Python 3.10 with `pyenv`
-
-List available bugfix versions of Python 3.10.
-
-```bash
-pyenv install -l | grep 3.10
-```
-
-Install the highest bugfix version available.
-
-```bash
-pyenv install 3.10.9
-```
-
-Verify installation.
-
-```bash
-pyenv versions
 ```
 
 ## Install `pipx`
@@ -123,41 +81,58 @@ python3 -m pipx ensurepath
 Refresh `PATH` environment variable and verify `pipx` installation.
 
 ```bash
-source .zshrc
+source ~/.zshrc
 pipx environment
 ```
 
 ## Install `poetry`
 
-Install.
+Install `poetry` by `pipx` and verify installation.
 
 ```bash
 pipx install poetry
-```
-
-Verify.
-
-```bash
 poetry --version
 ```
 
-## Install VS Code plugins to work with Python and WSL2
+## Install `nvm`
 
-Install the plugin `WSL` first. Afterwards, restart VS Code if necessary.
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+```
 
-Click on the shiny box with icon like `><` in the bottom left corner to start a remote windown with Ubuntu 22.04.1.
+## Install `zsh-autosuggestions`
 
-Install the following plugins: `Pylance`, `Python`, `Python Indent`, `Jupyter` (and its extension pack), `Docker`,
-`GitLens`.
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+```
 
 ## Set Git global user.name and user.email
 
-Before we can make an `git` commits, we need to set up minimal identity information.
-
 ```bash
 git config --global user.name YOUR_USER_NAME
+git config --global user.name YOUR_EMAIL
 ```
 
+## Install GitHub CLI
+
+For authentication against GitHub, the most convenient option is to use the GitHub CLI. To install, run the
+following commands.
+
 ```bash
-git config --global user.name YOUR_EMAIL
+type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+```
+
+## Get baseline dot files
+
+Get baseline dot files from GitHub. Note that they _overwrite_ existing local ones.
+
+```bash
+curl -s -o dotFiles.zip https://raw.githubusercontent.com/kxue43/zsh-dot-files/master/dotFiles.zip
+unzip -o dotFiles.zip
+rm dotFiles.zip
 ```
