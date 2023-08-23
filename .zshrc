@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------
-export PATH="$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 # ------------------------------------------------------------------------
 alias glg='git log --graph --oneline --all'
 alias venvact='. .venv/bin/activate'
