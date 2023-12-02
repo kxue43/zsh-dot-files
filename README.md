@@ -1,41 +1,25 @@
-# Setting up a Ubuntu Dev Computer
+# Setting up a MacBook with Apple Silicon chips
 
 ## Introduction
 
-This document covers how to set up a Linux computer with a newly installed Ubuntu 22.04 distro
-for Python and Node development. It works on Windows with WSL2 as well.
+This document covers how to set up a MacBook with Apple Silicon chips for Python, Node and Ruby development.
 
 All commands below should be executed from the user's home directory.
 
-## Install prerequisite tools
-
-Perform initial update and upgrade for a new distro.
+## Install `homebrew` and perform initial `update` and `upgrade`
 
 ```bash
-sudo apt update -y && sudo apt upgrade -y
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval $(/opt/homebrew/bin/brew shellenv)
+brew update
+brew upgrade
 ```
 
-Install some common tools needed by the rest of the process.
+## Install `git`
 
 ```bash
-sudo apt install zip unzip curl -y
+brew install git
 ```
-
-## Install zsh and use it as the default login shell
-
-Install `zsh` shell.
-
-```bash
-sudo apt install zsh -y
-```
-
-Switch to `zsh` as default login shell.
-
-```bash
-chsh -s $(which zsh)
-```
-
-**Now exit the current login shell and then restart/login again.**
 
 ## Install `pyenv`
 
@@ -44,10 +28,8 @@ compiling them from C source code. Therefore, we need to first install C compile
 that Python depends on for compilation.
 
 ```bash
-sudo apt install build-essential libssl-dev zlib1g-dev \
-libbz2-dev libreadline-dev libsqlite3-dev curl llvm \
-libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
-libffi-dev liblzma-dev -y
+xcode-select --install
+brew install openssl readline sqlite3 xz zlib tcl-tk
 ```
 
 Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
@@ -57,47 +39,30 @@ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 pushd ~/.pyenv && src/configure && make -C src && popd
 ```
 
+Install some Python interpreter versions.
+
+```bash
+pyenv install 3.9
+pyenv install 3.10
+pyenv install 3.11
+```
+
 ## Install `pipx`
 
-Enhance the system Python that comes with Ubuntu.
-
 ```bash
-sudo apt install python3-pip python3.10-venv
-```
-
-Verify system Python meets the requirements to install `pipx`.
-
-```bash
-python3 --version && pip3 --version
-```
-
-Install `pipx`
-
-```bash
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
-```
-
-Refresh `PATH` environment variable and verify `pipx` installation.
-
-```bash
-source ~/.zshrc
-pipx environment
-```
-
-## Install `poetry`
-
-Install `poetry` by `pipx` and verify installation.
-
-```bash
-pipx install poetry
-poetry --version
+brew install pipx
 ```
 
 ## Install `nvm`
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+```
+
+## Install `rbenv`
+
+```bash
+brew install rbenv ruby-build
 ```
 
 ## Install `zsh-autosuggestions`
@@ -119,12 +84,7 @@ For authentication against GitHub, the most convenient option is to use the GitH
 following commands.
 
 ```bash
-type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-&& sudo apt update \
-&& sudo apt install gh -y
+brew install gh
 ```
 
 ## Get baseline dot files
@@ -132,7 +92,7 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 Get baseline dot files from GitHub. Note that they _overwrite_ existing local ones.
 
 ```bash
-curl -s -o dotFiles.zip https://raw.githubusercontent.com/kxue43/zsh-dot-files/master/dotFiles.zip
+curl -s -o dotFiles.zip https://raw.githubusercontent.com/kxue43/zsh-dot-files/mac-arm64/dotFiles.zip
 unzip -o dotFiles.zip
 rm dotFiles.zip
 ```
