@@ -37,7 +37,7 @@ chsh -s $(which zsh)
 
 **Now exit the current login shell and then restart/login again.**
 
-**Now Ubuntu Desktop, logout the current user and log back in again.**
+**On Ubuntu Desktop, logout the current user and log back in again.**
 
 ## Install `pyenv`
 
