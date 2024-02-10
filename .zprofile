@@ -7,4 +7,4 @@ eval "$(pyenv init -)"
 export PATH="$PATH:/Users/kxue/.local/bin"
 
 # rbenv
-eval "$(rbenv init - zsh)"
+eval "$(~/.rbenv/bin/rbenv init - zsh)"

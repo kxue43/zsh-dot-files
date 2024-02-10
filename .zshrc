@@ -31,7 +31,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 #-------------------------------------------------------------------------
 # rbenv settings
-eval "$(rbenv init - zsh)"
+eval "$(~/.rbenv/bin/rbenv init - zsh)"
 #-------------------------------------------------------------------------
 # zsh-autosuggestions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
