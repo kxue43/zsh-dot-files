@@ -37,6 +37,8 @@ chsh -s $(which zsh)
 
 **Now exit the current login shell and then restart/login again.**
 
+**Now Ubuntu Desktop, logout the current user and log back in again.**
+
 ## Install `pyenv`
 
 `pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
@@ -97,7 +99,13 @@ poetry --version
 ## Install `nvm`
 
 ```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```
+
+## Install `rbenv`
+
+```bash
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 ```
 
 ## Install `zsh-autosuggestions`
@@ -110,7 +118,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 
 ```bash
 git config --global user.name YOUR_USER_NAME
-git config --global user.name YOUR_EMAIL
+git config --global user.email YOUR_EMAIL
 ```
 
 ## Install GitHub CLI
