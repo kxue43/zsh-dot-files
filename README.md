@@ -3,7 +3,7 @@
 ## Introduction
 
 This document covers how to set up a Linux computer with a newly installed Ubuntu 22.04 distro
-for Python and Node development. It works on Windows with WSL2 as well.
+for Python, Node and Ruby development. It works on Windows with WSL2 as well.
 
 All commands below should be executed from the user's home directory.
 
@@ -104,8 +104,25 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 ## Install `rbenv`
 
+First install build dependencies.
+
+```bash
+sudo apt-get install autoconf patch build-essential \
+rustc libssl-dev libyaml-dev libreadline6-dev \
+zlib1g-dev libgmp-dev libncurses5-dev libffi-dev \
+libgdbm6 libgdbm-dev libdb-dev uuid-dev -y
+```
+
+Install `rbenv`.
+
 ```bash
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+```
+
+Install `ruby-build` as a plugin for `rbenv`.
+
+```bash
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
 ## Install `zsh-autosuggestions`
