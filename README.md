@@ -1,9 +1,9 @@
-# Setting up a Ubuntu Dev Computer
+# Setting up a Fedora Dev Computer
 
 ## Introduction
 
-This document covers how to set up a Linux computer with a newly installed Ubuntu 22.04 distro
-for Python, Node and Ruby development. It works on Windows with WSL2 as well.
+This document covers how to set up a Linux computer with a newly installed Fedora 39 distro
+for Python, Node and Ruby development.
 
 All commands below should be executed from the user's home directory.
 
@@ -12,13 +12,13 @@ All commands below should be executed from the user's home directory.
 Perform initial update and upgrade for a new distro.
 
 ```bash
-sudo apt update -y && sudo apt upgrade -y
+sudo dnf upgrade
 ```
 
 Install some common tools needed by the rest of the process.
 
 ```bash
-sudo apt install zip unzip curl -y
+sudo dnf install zip unzip curl vim
 ```
 
 ## Install zsh and use it as the default login shell
@@ -26,7 +26,7 @@ sudo apt install zip unzip curl -y
 Install `zsh` shell.
 
 ```bash
-sudo apt install zsh -y
+sudo dnf install zsh
 ```
 
 Switch to `zsh` as default login shell.
@@ -35,9 +35,7 @@ Switch to `zsh` as default login shell.
 chsh -s $(which zsh)
 ```
 
-**Now exit the current login shell and then restart/login again.**
-
-**On Ubuntu Desktop, logout the current user and log back in again.**
+**Logout the current user and log back in again.**
 
 ## Install `pyenv`
 
@@ -46,10 +44,9 @@ compiling them from C source code. Therefore, we need to first install C compile
 that Python depends on for compilation.
 
 ```bash
-sudo apt install build-essential libssl-dev zlib1g-dev \
-libbz2-dev libreadline-dev libsqlite3-dev curl llvm \
-libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
-libffi-dev liblzma-dev -y
+sudo dnf install make gcc patch zlib-devel bzip2 bzip2-devel \
+readline-devel sqlite sqlite-devel openssl-devel tk-devel \
+libffi-devel xz-devel libuuid-devel gdbm-libs libnsl2
 ```
 
 Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
@@ -64,20 +61,8 @@ pushd ~/.pyenv && src/configure && make -C src && popd
 Enhance the system Python that comes with Ubuntu.
 
 ```bash
-sudo apt install python3-pip python3.10-venv
-```
-
-Verify system Python meets the requirements to install `pipx`.
-
-```bash
-python3 --version && pip3 --version
-```
-
-Install `pipx`
-
-```bash
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
+sudo dnf install pipx
+pipx ensurepath
 ```
 
 Refresh `PATH` environment variable and verify `pipx` installation.
@@ -107,10 +92,9 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 First install build dependencies.
 
 ```bash
-sudo apt-get install autoconf patch build-essential \
-rustc libssl-dev libyaml-dev libreadline6-dev \
-zlib1g-dev libgmp-dev libncurses5-dev libffi-dev \
-libgdbm6 libgdbm-dev libdb-dev uuid-dev -y
+sudo dnf install -y autoconf gcc rust patch make bzip2 openssl-devel \
+libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel \
+ncurses-devel
 ```
 
 Install `rbenv`.
@@ -136,6 +120,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 ```bash
 git config --global user.name YOUR_USER_NAME
 git config --global user.email YOUR_EMAIL
+git config --global core.editor vim
 ```
 
 ## Install GitHub CLI
@@ -144,12 +129,9 @@ For authentication against GitHub, the most convenient option is to use the GitH
 following commands.
 
 ```bash
-type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-&& sudo apt update \
-&& sudo apt install gh -y
+sudo dnf install 'dnf-command(config-manager)'
+sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+sudo dnf install gh
 ```
 
 ## Get baseline dot files
