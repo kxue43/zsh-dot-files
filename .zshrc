@@ -8,6 +8,7 @@ alias venvact='. .venv/bin/activate'
 alias clean-aws-cache="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && unset AWS_ACCESS_KEY_ID && rm -rf ~/.aws/boto/cache"
 alias gs='git status'
 alias gci='aws sts get-caller-identity'
+alias code='code --enable-features=UseOzonePlatform --ozone-platform=wayland'
 # ------------------------------------------------------------------------
 function glo {
     git log --oneline $@
