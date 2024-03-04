@@ -42,9 +42,8 @@ pushd ~/.pyenv && src/configure && make -C src && popd
 Install some Python interpreter versions.
 
 ```bash
-pyenv install 3.9
-pyenv install 3.10
 pyenv install 3.11
+pyenv install 3.12
 ```
 
 ## Install `pipx`

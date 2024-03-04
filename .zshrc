@@ -1,6 +1,3 @@
-#-------------------------------------------------------------------------
-# Apple M1 Chip machine settings
-eval $(/opt/homebrew/bin/brew shellenv)
 # ------------------------------------------------------------------------
 export PATH="$HOME/.local/bin:/Applications/MacVim.app/Contents/bin:$PATH"
 # ------------------------------------------------------------------------
