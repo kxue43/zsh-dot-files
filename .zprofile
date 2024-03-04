@@ -1,10 +1,3 @@
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# pipx
-export PATH="$PATH:/Users/kxue/.local/bin"
-
 # rbenv
+# Needeb b/c of https://github.com/castwide/vscode-solargraph/issues/108#issuecomment-487359460
 eval "$(~/.rbenv/bin/rbenv init - zsh)"
